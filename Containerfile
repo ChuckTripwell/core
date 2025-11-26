@@ -6,14 +6,18 @@ ENV DRACUT_NO_XATTR=1
 # 
 ########################################################################################################################################
 
+# Move everything from `/var` to `/usr/lib/sysimage` so behavior around pacman remains the same on `bootc usroverlay`'d systems
+RUN grep "= */var" /etc/pacman.conf | sed "/= *\/var/s/.*=// ; s/ //" | xargs -n1 sh -c 'mkdir -p "/usr/lib/sysimage/$(dirname $(echo $1 | sed "s@/var/@@"))" && mv -v "$1" "/usr/lib/sysimage/$(echo "$1" | sed "s@/var/@@")"' '' && \
+    sed -i -e "/= *\/var/ s/^#//" -e "s@= */var@= /usr/lib/sysimage@g" -e "/DownloadUser/d" /etc/pacman.conf
+
 # Initialize the database
-RUN pacman -Syu --noconfirm
+RUN pacman -Sy --noconfirm
+
+RUN pacman -S --noconfirm cachyos-mirrorlist cachyos-v3-mirrorlist cachyos-v4-mirrorlist
+RUN pacman -Syyu --noconfirm
 
 # Use the Arch mirrorlist that will be best at the moment for both the containerfile and user too! Fox will help!
 RUN pacman -S --noconfirm reflector
-
-RUN pacman -S --noconfirm cachyos-mirrorlist cachyos-v3-mirrorlist cachyos-v4-mirrorlist
-RUN pacman -Syy --noconfirm
 
 # Base packages \ Linux Foundation \ Foss is love, foss is life! We split up packages by category for readability, debug ease, and less dependency trouble
 RUN pacman -S --noconfirm base dracut linux-firmware ostree systemd btrfs-progs e2fsprogs xfsprogs binutils dosfstools skopeo dbus dbus-glib glib2 shadow
