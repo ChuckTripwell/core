@@ -258,5 +258,5 @@ net.ipv4.tcp_congestion_control=bbr' > /etc/sysctl.d/99-bbr3.conf
 # 
 ########################################################################################################################################
 
-#Starship setup
-RUN echo -e 'eval "$(starship init bash)"' >> /etc/bash.bashrc
+#Shell setup
+RUN echo -e 'fish' >> /etc/bash.bashrc
