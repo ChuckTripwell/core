@@ -35,7 +35,7 @@ RUN pacman -S --noconfirm adobe-source-han-sans-cn-fonts adobe-source-han-sans-j
 
 # CLI Utilities
 RUN pacman -S --noconfirm sudo bash bash-completion fastfetch btop jq less lsof nano openssh powertop man-db wget yt-dlp \
-      tree usbutils vim wl-clipboard unzip ptyxis glibc-locales tar udev starship tuned-ppd tuned hyfetch curl
+      tree usbutils vim wl-clipboard unzip ptyxis glibc-locales tar udev starship tuned-ppd tuned hyfetch curl firejail
 
 # Virtualization
 RUN pacman -S --noconfirm distrobox docker podman
