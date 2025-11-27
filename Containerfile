@@ -60,9 +60,9 @@ RUN pacman -S --noconfirm scx-scheds scx-manager
 
 RUN pacman -S --clean
 
-RUN tee -a /etc/distrobox/distrobox.conf <<EOF
-DBX_CONTAINER_HOME_PREFIX=$HOME/distrobox
-EOF
+#RUN tee -a /etc/distrobox/distrobox.conf <<EOF
+#DBX_CONTAINER_HOME_PREFIX=$HOME/distrobox
+#EOF
 
 ########################################################################################################################################
 # 
