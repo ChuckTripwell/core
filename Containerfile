@@ -6,6 +6,9 @@ ENV DRACUT_NO_XATTR=1
 # 
 ########################################################################################################################################
 
+# Use the Arch mirrorlist that will be best at the moment for both the containerfile and user too! Fox will help!
+RUN pacman -S --noconfirm reflector
+
 # Move everything from `/var` to `/usr/lib/sysimage` so behavior around pacman remains the same on `bootc usroverlay`'d systems
 RUN grep "= */var" /etc/pacman.conf | sed "/= *\/var/s/.*=// ; s/ //" | xargs -n1 sh -c 'mkdir -p "/usr/lib/sysimage/$(dirname $(echo $1 | sed "s@/var/@@"))" && mv -v "$1" "/usr/lib/sysimage/$(echo "$1" | sed "s@/var/@@")"' '' && \
     sed -i -e "/= *\/var/ s/^#//" -e "s@= */var@= /usr/lib/sysimage@g" -e "/DownloadUser/d" /etc/pacman.conf
@@ -16,26 +19,24 @@ RUN pacman -Sy --noconfirm
 RUN pacman -S --noconfirm cachyos-mirrorlist cachyos-v3-mirrorlist cachyos-v4-mirrorlist
 RUN pacman -Syyu --noconfirm
 
+
 # Use the Arch mirrorlist that will be best at the moment for both the containerfile and user too! Fox will help!
 RUN pacman -S --noconfirm reflector
 
 # Base packages \ Linux Foundation \ Foss is love, foss is life! We split up packages by category for readability, debug ease, and less dependency trouble
-RUN pacman -S --noconfirm base dracut linux-firmware ostree systemd btrfs-progs e2fsprogs xfsprogs binutils dosfstools skopeo dbus dbus-glib glib2 shadow
-
-RUN pacman -S --noconfirm cachyos-settings
+RUN pacman -S --noconfirm base dracut linux-cachyos-bore linux-firmware ostree systemd btrfs-progs e2fsprogs xfsprogs binutils dosfstools skopeo dbus dbus-glib glib2 shadow
 
 # Media/Install utilities/Media drivers
 RUN pacman -S --noconfirm librsvg libglvnd qt6-multimedia-ffmpeg plymouth acpid ddcutil dmidecode mesa-utils ntfs-3g \
       vulkan-tools wayland-utils playerctl
 
 # Fonts
-RUN pacman -S --noconfirm adobe-source-han-sans-cn-fonts adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adwaita-fonts \
-    awesome-terminal-fonts cantarell-fonts gnu-free-fonts noto-fonts noto-fonts-cjk noto-fonts-emoji opendesktop-fonts powerline-fonts
-    
+RUN pacman -S --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji unicode-emoji noto-fonts-extra ttf-fira-code ttf-firacode-nerd \
+      ttf-ibm-plex ttf-jetbrains-mono-nerd otf-font-awesome ttf-jetbrains-mono gnu-free-fonts awesome-terminal-fonts
 
 # CLI Utilities
 RUN pacman -S --noconfirm sudo bash bash-completion fastfetch btop jq less lsof nano openssh powertop man-db wget yt-dlp \
-      tree usbutils vim wl-clipboard unzip ptyxis glibc-locales tar udev starship tuned-ppd tuned hyfetch curl firejail
+      tree usbutils vim wl-clipboard unzip ptyxis glibc-locales tar udev starship tuned-ppd tuned hyfetch curl
 
 # Virtualization
 RUN pacman -S --noconfirm distrobox docker podman
@@ -48,7 +49,7 @@ RUN pacman -S --noconfirm amd-ucode intel-ucode efibootmgr shim mesa lib32-mesa 
 RUN pacman -S --noconfirm libmtp networkmanager-openconnect networkmanager-openvpn nss-mdns samba smbclient networkmanager firewalld udiskie
 
 # Accessibility
-#RUN pacman -S --noconfirm espeak-ng orca
+RUN pacman -S --noconfirm espeak-ng orca
 
 # Pipewire
 RUN pacman -S --noconfirm pipewire pipewire-pulse pipewire-zeroconf pipewire-ffado pipewire-libcamera sof-firmware wireplumber
@@ -56,14 +57,23 @@ RUN pacman -S --noconfirm pipewire pipewire-pulse pipewire-zeroconf pipewire-ffa
 # Printer
 #RUN pacman -S --noconfirm cups cups-browsed hplip
 
+# Desktop Environment needs
+RUN pacman -S --noconfirm greetd xwayland-satellite greetd-regreet xdg-desktop-portal-kde xdg-desktop-portal xdg-user-dirs xdg-desktop-portal-gnome \
+      ffmpegthumbs kdegraphics-thumbnailers kdenetwork-filesharing kio-admin chezmoi matugen accountsservice quickshell dgop cliphist cava dolphin \ 
+      breeze brightnessctl wlsunset ddcutil xdg-utils kservice5 archlinux-xdg-menu shared-mime-info kio glycin
+
 # User frontend programs/apps
-RUN pacman -S --noconfirm scx-scheds scx-manager
+RUN pacman -S --noconfirm steam gamescope scx-scheds scx-manager gnome-disk-utility mangohud
 
 RUN pacman -S --clean
 
-#RUN tee -a /etc/distrobox/distrobox.conf <<EOF
-#DBX_CONTAINER_HOME_PREFIX=$HOME/distrobox
-#EOF
+##############################################
+# isolated distrobox homes
+#
+RUN mkdir -p /etc/distrobox/
+RUN touch /etc/distrobox/distrobox.conf
+RUN echo "DBX_CONTAINER_HOME_PREFIX=$HOME/distrobox" >> /etc/distrobox/distrobox.conf
+##############################################
 
 ########################################################################################################################################
 # 
