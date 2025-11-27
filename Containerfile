@@ -29,8 +29,9 @@ RUN pacman -S --noconfirm librsvg libglvnd qt6-multimedia-ffmpeg plymouth acpid 
       vulkan-tools wayland-utils playerctl
 
 # Fonts
-RUN pacman -S --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji unicode-emoji noto-fonts-extra ttf-fira-code ttf-firacode-nerd \
-      ttf-ibm-plex ttf-jetbrains-mono-nerd otf-font-awesome ttf-jetbrains-mono noto-fonts noto-fonts-emoji ttf-bitstream-vera ttf-croscore ttf-dejavu gnu-free-fonts
+RUN pacman -S --noconfirm adobe-source-han-sans-cn-fonts adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adwaita-fonts \
+    awesome-terminal-fonts cantarell-fonts gnu-free-fonts noto-fonts noto-fonts-cjk noto-fonts-emoji opendesktop-fonts powerline-fonts \
+    
 
 # CLI Utilities
 RUN pacman -S --noconfirm sudo bash bash-completion fastfetch btop jq less lsof nano openssh powertop man-db wget yt-dlp \
