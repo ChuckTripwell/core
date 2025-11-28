@@ -39,7 +39,7 @@ RUN pacman -S --noconfirm sudo bash bash-completion fastfetch btop jq less lsof 
       tree usbutils vim wl-clipboard unzip ptyxis glibc-locales tar udev starship tuned-ppd tuned hyfetch curl
 
 # Virtualization and containerization
-RUN pacman -S --noconfirm distrobox docker podman firejail
+RUN pacman -S --noconfirm distrobox docker podman firejail bubblewrap
 
 # Drivers \ "Business, business, business! Numbersss."
 RUN pacman -S --noconfirm amd-ucode intel-ucode efibootmgr shim mesa lib32-mesa libva-intel-driver libva-mesa-driver \
