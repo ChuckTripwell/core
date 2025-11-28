@@ -38,8 +38,8 @@ RUN pacman -S --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji unicode-emo
 RUN pacman -S --noconfirm sudo bash bash-completion fastfetch btop jq less lsof nano openssh powertop man-db wget yt-dlp \
       tree usbutils vim wl-clipboard unzip ptyxis glibc-locales tar udev starship tuned-ppd tuned hyfetch curl
 
-# Virtualization
-RUN pacman -S --noconfirm distrobox docker podman
+# Virtualization and containerization
+RUN pacman -S --noconfirm distrobox docker podman firejail
 
 # Drivers \ "Business, business, business! Numbersss."
 RUN pacman -S --noconfirm amd-ucode intel-ucode efibootmgr shim mesa lib32-mesa libva-intel-driver libva-mesa-driver \
