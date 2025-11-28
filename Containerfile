@@ -11,17 +11,11 @@ RUN grep "= */var" /etc/pacman.conf | sed "/= *\/var/s/.*=// ; s/ //" | xargs -n
     sed -i -e "/= *\/var/ s/^#//" -e "s@= */var@= /usr/lib/sysimage@g" -e "/DownloadUser/d" /etc/pacman.conf
 
 # Initialize the database
-RUN pacman -Sy --noconfirm
+RUN pacman -Syy --noconfirm
 
-# Use the Arch mirrorlist that will be best at the moment for both the containerfile and user too! Fox will help!
+# Use the Arch mirrorlist that will be best at the moment for both the containerfile and user too.
 RUN pacman -S --noconfirm reflector
-
-RUN pacman -S --noconfirm cachyos-mirrorlist cachyos-v3-mirrorlist cachyos-v4-mirrorlist
-RUN pacman -Syyu --noconfirm
-
-
-# Use the Arch mirrorlist that will be best at the moment for both the containerfile and user too! Fox will help!
-RUN pacman -S --noconfirm reflector
+RUN pacman -Syyuu --noconfirm
 
 # Base packages
 RUN pacman -S --noconfirm base dracut linux-firmware ostree systemd btrfs-progs e2fsprogs xfsprogs binutils dosfstools skopeo dbus dbus-glib glib2 shadow runc
