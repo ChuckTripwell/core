@@ -36,7 +36,7 @@ RUN pacman -S --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji unicode-emo
 
 # CLI Utilities
 RUN pacman -S --noconfirm sudo bash bash-completion fastfetch btop jq less lsof nano openssh powertop man-db wget yt-dlp \
-      tree usbutils vim wl-clipboard unzip ptyxis glibc-locales tar udev starship tuned-ppd tuned hyfetch curl
+      tree usbutils vim wl-clipboard unzip ptyxis glibc-locales tar udev starship tuned-ppd tuned hyfetch curl crun
 
 # Virtualization and containerization
 RUN pacman -S --noconfirm distrobox docker podman firejail bubblewrap
