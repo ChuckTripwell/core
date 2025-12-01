@@ -174,34 +174,6 @@ RUN systemctl enable NetworkManager firewalld
 #LOGO=archlinux-logo\n\
 #DEFAULT_HOSTNAME="XeniaOS"' > /etc/os-release
 
-# Automounter Systemd Service for flash drives and CDs
-RUN echo -e '[Unit] \n\
-Description=Udiskie automount \n\
-PartOf=graphical-session.target \n\
-After=graphical-session.target \n\
- \n\
-[Service] \n\
-ExecStart=udiskie \n\
-Restart=on-failure \n\
-RestartSec=1 \n\
-\n\
-[Install] \n\
-WantedBy=graphical-session.target' > /usr/lib/systemd/user/udiskie.service
-
-# Clip history / Cliphist systemd service / Clipboard history for copy and pasting to work properly in Niri~
-RUN echo -e '[Unit]\n\
-Description=Clipboard History service\n\
-PartOf=graphical-session.target\n\
-After=graphical-session.target\n\
-\n\
-[Service]\n\
-ExecStart=wl-paste --watch cliphist store\n\
-Restart=on-failure\n\
-RestartSec=1\n\
-\n\
-[Install]\n\
-WantedBy=graphical-session.target' > /usr/lib/systemd/user/cliphist.service
-
 # Symlink Vi to Vim / Make it to where a user can use vi in terminal command to use vim automatically | Thanks Tulip
 RUN ln -s ./vim /usr/bin/vi
 
