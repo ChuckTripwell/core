@@ -99,9 +99,9 @@ RUN echo -e '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/
 
 RUN pacman -Sy --noconfirm
 
-RUN pacman -S \
-      chaotic-aur/flatpak-git chaotic-aur/ttf-twemoji chaotic-aur/ttf-symbola chaotic-aur/opentabletdriver chaotic-aur/paru \
-      --noconfirm
+RUN pacman -S --noconfirm \
+    chaotic-aur/sc-controller chaotic-aur/flatpak-git \
+    chaotic-aur/ttf-symbola chaotic-aur/opentabletdriver chaotic-aur/qt6ct-kde chaotic-aur/bootc
 
 ########################################################################################################################################
 # 
