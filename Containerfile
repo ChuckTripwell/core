@@ -58,16 +58,16 @@ RUN pacman -Syy --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --n
 RUN pacman -Syy --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm
 
 # install basic stuff
-RUN pacman -S --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm base dracut linux-firmware ostree systemd btrfs-progs e2fsprogs xfsprogs binutils dosfstools skopeo dbus dbus-glib glib2 shadow udev wget crun
-RUN pacman -S --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm librsvg libglvnd qt6-multimedia-ffmpeg plymouth acpid ddcutil dmidecode mesa-utils ntfs-3g vulkan-tools wayland-utils playerctl curl cosign
-RUN pacman -S --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm distrobox podman shim networkmanager firewalld flatpak gamescope scx-scheds scx-manager sudo bash bash-completion fastfetch unzip
+RUN pacman -S --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm --overwrite='*' base dracut linux-firmware ostree systemd btrfs-progs e2fsprogs xfsprogs binutils dosfstools skopeo dbus dbus-glib glib2 shadow udev wget crun
+RUN pacman -S --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm --overwrite='*' librsvg libglvnd qt6-multimedia-ffmpeg plymouth acpid ddcutil dmidecode mesa-utils ntfs-3g vulkan-tools wayland-utils playerctl curl cosign
+RUN pacman -S --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm --overwrite='*' distrobox podman shim networkmanager firewalld flatpak gamescope scx-scheds scx-manager sudo bash bash-completion fastfetch unzip
 
 RUN pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
 RUN pacman-key --init && pacman-key --lsign-key 3056513887B78AEB
 RUN pacman -U --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' --noconfirm
 RUN pacman -U --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' --noconfirm
 RUN echo -e '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf
-RUN pacman -Sy --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm --noconfirm chaotic-aur/bootc
+RUN pacman  --overwrite='*' -Sy --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm --noconfirm chaotic-aur/bootc
 
 
 # add post-transaction flatpsks
@@ -175,7 +175,7 @@ net.ipv4.tcp_congestion_control=bbr' > /etc/sysctl.d/99-bbr3.conf
 
 # ONLY ADD ONE KERNEL!!!
 #
-RUN pacman -Sy --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm linux-cachyos-deckify linux-cachyos-deckify-headers
+RUN pacman -Sy --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm --overwrite='*' linux-cachyos-deckify linux-cachyos-deckify-headers
 
 #
 #RUN bash -c 'BASE="https://build.cachyos.org/ISO/handheld"; \
@@ -185,7 +185,7 @@ RUN pacman -Sy --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --no
 #done; \
 #pacman -Sy --noconfirm --overwrite "*" --ask=4 $(curl -s "$BASE/$DATE/cachyos-handheld-linux-$DATE.pkgs.txt" | awk "{print \$1}" | grep -v firefox | grep -v cachyos-calamares-qt6-next-deckify | grep -v vim | grep -v vim-runtime | grep -v paru )'
 
-RUN pacman -S --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm --overwrite "*" --ask=4 \
+RUN pacman -S --root / --dbpath  /tmp/tmp_cache --cachedir /tmp/tmp_cache --noconfirm --overwrite "*" --ask=4 \
     steamos-manager steamos-powerbuttond jupiter-fan-control steamdeck-dsp cachyos-handheld \
     amd-ucode intel-ucode efibootmgr shim mesa lib32-mesa libva-intel-driver libva-mesa-driver \
     vpl-gpu-rt vulkan-icd-loader vulkan-intel vulkan-radeon apparmor xf86-video-amdgpu lib32-vulkan-radeon \
@@ -223,7 +223,7 @@ RUN systemctl enable /usr/lib/systemd/system/fix-grub-link.service
 
 ###########_____________________________________________________________________________________________________________________________
 # services from bazzite
-RUN pacman -S --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm rsync 
+RUN pacman  --overwrite='*' -S --root / --dbpath  /tmp/tmp_cache --cachedir  /tmp/tmp_cache --noconfirm rsync 
 WORKDIR /tmp
 RUN git clone --depth 1 https://github.com/ublue-os/bazzite.git
 RUN rsync -a /tmp/bazzite/system_files/deck/kinoite/ /
